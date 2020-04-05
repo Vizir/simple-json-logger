@@ -1,0 +1,60 @@
+{
+  "name": "@vizir/simple-json-logger",
+  "version": "0.0.1",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "prepare": "tsc",
+    "lint": "eslint . --ext ts",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "keywords": [
+    "simple json logger",
+    "logger",
+    "typescript logger",
+    "typescript"
+  ],
+  "author": "Vizir Software Studio <contato@vizir.com.br>",
+  "contributors": [
+    "Tiago de Assis Gonçalves <contato@tiagogoncalves.com.br>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/faker": "^4.1.11",
+    "@types/jest": "^25.2.1",
+    "@types/json-stringify-safe": "^5.0.0",
+    "@types/node": "^13.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "faker": "^4.1.0",
+    "husky": "^4.2.3",
+    "jest": "^25.2.7",
+    "prettier": "^2.0.2",
+    "pretty-quick": "^2.0.1",
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "json-stringify-safe": "^5.0.1",
+    "np": "^6.2.0"
+  },
+  "description": "The simplest json logger. Include typescript definitions.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiagogoncalves89/simple-json-logger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tiagogoncalves89/simple-json-logger/issues"
+  },
+  "homepage": "https://github.com/tiagogoncalves89/simple-json-logger#readme"
+}
