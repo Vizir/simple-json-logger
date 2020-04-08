@@ -51,10 +51,13 @@
   "description": "The simplest json logger. Include typescript definitions.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tiagogoncalves89/simple-json-logger.git"
+    "url": "git+https://github.com/vizir/simple-json-logger.git"
   },
   "bugs": {
-    "url": "https://github.com/tiagogoncalves89/simple-json-logger/issues"
+    "url": "https://github.com/vizir/simple-json-logger/issues"
   },
-  "homepage": "https://github.com/tiagogoncalves89/simple-json-logger#readme"
+  "homepage": "https://github.com/vizir/simple-json-logger#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
