@@ -45,8 +45,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "json-stringify-safe": "^5.0.1",
-    "np": "^6.2.0"
+    "json-stringify-safe": "^5.0.1"
   },
   "description": "The simplest json logger. Include typescript definitions.",
   "repository": {
