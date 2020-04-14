@@ -1,6 +1,12 @@
 # @vizir/simple-json-logger
 
-A fast, simple and opinionated json logger.
+A fast, simple and opinionated json logger to stdout.
+
+## Motivation
+
+This library is designed to be an easy and fast way to log json messages to `stdout`.
+
+If you want a more advanced solution, we recommend to you use [winston](https://www.npmjs.com/package/winston).
 
 ## Installation
 
