@@ -3,6 +3,11 @@
   "version": "1.0.1",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/src"
+  ],
   "scripts": {
     "prepare": "tsc",
     "lint": "eslint . --ext ts",
