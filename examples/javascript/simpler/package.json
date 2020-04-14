@@ -1,0 +1,17 @@
+{
+  "name": "example-javascript-simpler",
+  "version": "1.0.0",
+  "description": "The simpler way to use @vizir/simple-json-logger into a javascript application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "Vizir Software Studio <contato@vizir.com.br>",
+  "contributors": [
+    "Tiago de Assis Gonçalves <contato@tiagogoncalves.com.br>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@vizir/simple-json-logger": "^1.0.1"
+  }
+}

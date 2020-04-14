@@ -1,0 +1,20 @@
+{
+  "name": "example-typescript-simpler",
+  "version": "1.0.0",
+  "description": "the simpler way to use @vizir/simple-json-logger into a typescript application",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node ."
+  },
+  "author": "Vizir Software Studio <contato@vizir.com.br>",
+  "contributors": [
+    "Tiago de Assis Gonçalves <contato@tiagogoncalves.com.br>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@vizir/simple-json-logger": "^1.0.1"
+  },
+  "devDependencies": {
+    "ts-node": "^8.8.2"
+  }
+}
