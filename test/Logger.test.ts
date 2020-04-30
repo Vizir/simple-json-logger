@@ -662,9 +662,9 @@ describe("simple-json-logger", () => {
       };
       const expectedMessage = JSON.stringify({
         attribute: { attribute: "[Circular ~.attribute]" },
-        ...extra,
         level: "debug",
         message: `${testFunctionPrefix}: ${message}`,
+        ...extra,
       });
       console.debug = mock;
 
@@ -688,9 +688,9 @@ describe("simple-json-logger", () => {
       };
       const expectedMessage = JSON.stringify({
         ...context,
-        ...extra,
         level: "debug",
         message: `TestClass.testMethod(): ${message}`,
+        ...extra,
       });
       console.debug = mock;
 
@@ -726,9 +726,9 @@ describe("simple-json-logger", () => {
       };
       const expectedMessage = JSON.stringify({
         ...context,
-        ...extra,
         level: "debug",
         message: `testFunction(): ${message}`,
+        ...extra,
       });
       console.debug = mock;
       const testFunction = (): void => {
@@ -757,9 +757,9 @@ describe("simple-json-logger", () => {
       };
       const expectedMessage = JSON.stringify({
         ...context,
-        ...extra,
         level: "debug",
         message: `${__filename}: ${message}`,
+        ...extra,
       });
       console.debug = mock;
 
@@ -789,6 +789,33 @@ describe("simple-json-logger", () => {
 
       // then
       expect(mock).not.toBeCalled();
+    });
+
+    test("Should log if the level is in upper case", () => {
+      // given
+      const context = {
+        word: faker.random.word(),
+      };
+      delete process.env.LOG_LEVEL;
+      const logger = new Logger(context);
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = {
+        paragraph: faker.lorem.paragraph(),
+      };
+      const expectedMessage = JSON.stringify({
+        ...context,
+        level: LogLevelEnum.DEBUG,
+        message: `${testFunctionPrefix}: ${message}`,
+        ...extra,
+      });
+      console.debug = mock;
+
+      // when
+      logger.log("DEBUG" as LogLevelEnum, message, extra);
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
     });
   });
 });

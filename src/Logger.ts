@@ -44,7 +44,9 @@ export class Logger {
     );
   }
 
-  public log(level: LogLevelEnum, message: string, extra?: object): void {
+  public log(rawLevel: LogLevelEnum, message: string, extra?: object): void {
+    const level = rawLevel.toLocaleLowerCase() as LogLevelEnum;
+
     if (!this.shouldLog(this.level, level)) return;
 
     console[level](this.createMessage(level, message, this.context, extra));
@@ -95,9 +97,9 @@ export class Logger {
   ): string {
     return stringify({
       ...context,
-      ...extra,
       level,
       message: `${this.getOrigin()}: ${message}`,
+      ...extra,
     });
   }
 
