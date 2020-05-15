@@ -9,7 +9,9 @@ export class Logger {
     LogLevelEnum.INFO,
     LogLevelEnum.DEBUG,
   ];
+
   private readonly context?: object;
+
   private readonly level: string;
 
   public constructor(context?: object) {
@@ -98,6 +100,7 @@ export class Logger {
     return stringify({
       ...context,
       level,
+      datetime: new Date().toISOString(),
       message: `${this.getOrigin()}: ${message}`,
       ...extra,
     });

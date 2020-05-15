@@ -3,10 +3,13 @@ import { Logger } from "../src/Logger";
 import { LogLevelEnum } from "../src/LogLevelEnum";
 import CallSite = NodeJS.CallSite;
 
-let testFunctionPrefix: string | null;
-
 describe("simple-json-logger", () => {
+  let testFunctionPrefix: string | null = null;
+
   beforeAll(async () => {
+    const mockDate = new Date();
+    // @ts-ignore
+    jest.spyOn(global, "Date").mockImplementation(() => mockDate);
     const CALLSITE_INDEX_IN_TEST = 3;
     const originalPrepareStackTrace = Error.prepareStackTrace;
     Error.prepareStackTrace = (_: Error, stack: CallSite[]): CallSite[] =>
@@ -53,6 +56,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "debug",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.debug = mock;
@@ -76,6 +80,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "debug",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.debug = mock;
@@ -173,6 +178,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "info",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.info = mock;
@@ -196,6 +202,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "info",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.info = mock;
@@ -219,6 +226,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "info",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.info = mock;
@@ -299,6 +307,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "warn",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.warn = mock;
@@ -322,6 +331,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "warn",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.warn = mock;
@@ -345,6 +355,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "warn",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.warn = mock;
@@ -368,6 +379,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "warn",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.warn = mock;
@@ -431,6 +443,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "error",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.error = mock;
@@ -454,6 +467,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "error",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.error = mock;
@@ -477,6 +491,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "error",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.error = mock;
@@ -500,6 +515,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "error",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.error = mock;
@@ -523,6 +539,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "error",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.error = mock;
@@ -569,6 +586,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: LogLevelEnum.DEBUG,
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.debug = mock;
@@ -592,6 +610,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "info",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.info = mock;
@@ -615,6 +634,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "warn",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.warn = mock;
@@ -638,6 +658,7 @@ describe("simple-json-logger", () => {
         ...context,
         ...extra,
         level: "error",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
       });
       console.error = mock;
@@ -663,6 +684,7 @@ describe("simple-json-logger", () => {
       const expectedMessage = JSON.stringify({
         attribute: { attribute: "[Circular ~.attribute]" },
         level: "debug",
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
         ...extra,
       });
@@ -689,6 +711,7 @@ describe("simple-json-logger", () => {
       const expectedMessage = JSON.stringify({
         ...context,
         level: "debug",
+        datetime: new Date().toISOString(),
         message: `TestClass.testMethod(): ${message}`,
         ...extra,
       });
@@ -727,6 +750,7 @@ describe("simple-json-logger", () => {
       const expectedMessage = JSON.stringify({
         ...context,
         level: "debug",
+        datetime: new Date().toISOString(),
         message: `testFunction(): ${message}`,
         ...extra,
       });
@@ -758,6 +782,7 @@ describe("simple-json-logger", () => {
       const expectedMessage = JSON.stringify({
         ...context,
         level: "debug",
+        datetime: new Date().toISOString(),
         message: `${__filename}: ${message}`,
         ...extra,
       });
@@ -806,6 +831,7 @@ describe("simple-json-logger", () => {
       const expectedMessage = JSON.stringify({
         ...context,
         level: LogLevelEnum.DEBUG,
+        datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
         ...extra,
       });
