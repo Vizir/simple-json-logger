@@ -169,4 +169,18 @@ describe("LoggerFilter", () => {
     // Then
     expect(parsed).toStrictEqual(expectedResult);
   });
+
+  it("Should can work with array of string", () => {
+    // Given
+    const ids = [faker.random.uuid(), faker.random.uuid(), faker.random.uuid()];
+    const item = { ids };
+    const expectedResult = { ids };
+    const filter = new LoggerFilter();
+
+    // When
+    const parsed = filter.process(item);
+
+    // Then
+    expect(parsed).toStrictEqual(expectedResult);
+  });
 });

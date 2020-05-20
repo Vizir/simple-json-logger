@@ -24,14 +24,18 @@ export class LoggerFilter {
   }
 
   private filterItem(item: TItem): object {
+    if (!this.isPlainObject(item)) {
+      return item;
+    }
+
     Object.keys(item).forEach((key: string): void => {
       if (this.isPlainObject(item[key])) {
-        item[key] = this.process(item[key]);
+        item[key] = this.filterItem(item[key]);
         return;
       }
 
       if (this.isJSONString(item[key])) {
-        item[key] = stringify(this.process(JSON.parse(item[key])));
+        item[key] = stringify(this.filterItem(JSON.parse(item[key])));
         return;
       }
 
