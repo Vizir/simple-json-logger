@@ -96,7 +96,6 @@ export class LoggerFilter {
     const newBlackList = DEFAULT_BLACK_LIST.filter(
       (item: string): boolean => !excludeBlackList.includes(item)
     );
-
     return newBlackList.concat(includeBlackList);
   }
 }

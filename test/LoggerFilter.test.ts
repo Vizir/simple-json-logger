@@ -68,6 +68,7 @@ describe("LoggerFilter", () => {
     const word = faker.random.word();
     const item = { [key]: word };
     const expectedResult = { [key]: word };
+
     const filter = new LoggerFilter([], [key]);
 
     // When
