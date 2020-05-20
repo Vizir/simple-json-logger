@@ -2,6 +2,9 @@
 
 A fast, simple and opinionated json logger to stdout.
 
+[![npm version](https://badge.fury.io/js/%40vizir%2Fsimple-json-logger.svg)](https://badge.fury.io/js/%40vizir%2Fsimple-json-logger)
+![Node.js CI](https://github.com/Vizir/simple-json-logger/workflows/Node.js%20CI/badge.svg?branch=master)
+
 ## Motivation
 
 This library is designed to be an easy and fast way to log json messages to `stdout`.
