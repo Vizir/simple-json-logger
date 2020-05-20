@@ -20,39 +20,33 @@ export class LoggerFilter {
       return item;
     }
 
-    return this.filterItem(this.clone(item));
+    return this.filterObject(this.clone(item));
   }
 
-  private filterItem(item: TItem): object {
-    if (!this.isPlainObject(item)) {
-      return item;
+  private filterObject(item: TItem): TItem {
+    Object.keys(item).forEach((key: string): void => {
+      item[key] = this.filterItem(key, item[key]);
+    });
+
+    return item;
+  }
+
+  private filterItem(key: string, item: any): any {
+    if (this.isOnBlacklist(key)) {
+      return this.placeholder;
     }
 
-    Object.keys(item).forEach((key: string): void => {
-      if (this.isPlainObject(item[key])) {
-        item[key] = this.filterItem(item[key]);
-        return;
-      }
+    if (this.isPlainObject(item)) {
+      return this.filterObject(item);
+    }
 
-      if (this.isJSONString(item[key])) {
-        item[key] = stringify(this.filterItem(JSON.parse(item[key])));
-        return;
-      }
+    if (this.isJSONString(item)) {
+      return stringify(this.filterItem(key, JSON.parse(item)));
+    }
 
-      if (Array.isArray(item[key])) {
-        item[key] = item[key].map(this.filterItem.bind(this));
-        return;
-      }
-
-      if (!this.isJSONType(item[key])) {
-        delete item[key];
-        return;
-      }
-
-      if (this.isOnBlacklist(key)) {
-        item[key] = this.placeholder;
-      }
-    });
+    if (Array.isArray(item)) {
+      return item.map(this.filterItem.bind(this, key));
+    }
 
     return item;
   }
@@ -69,15 +63,6 @@ export class LoggerFilter {
 
   private isPlainObject(value: any): boolean {
     return value?.constructor === Object;
-  }
-
-  private isJSONType(value: any): boolean {
-    return (
-      typeof value !== "object" ||
-      Array.isArray(value) ||
-      this.isPlainObject(value) ||
-      value instanceof Date
-    );
   }
 
   private isJSONString(value: any): boolean {
