@@ -3,6 +3,8 @@ import { Logger } from "../src/Logger";
 import { LogLevelEnum } from "../src/LogLevelEnum";
 import CallSite = NodeJS.CallSite;
 
+const DEFAULT_PLACE_HOLDER = "*sensitive*";
+
 describe("simple-json-logger", () => {
   let testFunctionPrefix: string | null = null;
 
@@ -23,7 +25,7 @@ describe("simple-json-logger", () => {
   });
 
   describe("creation", () => {
-    test("Should create a logger without context", () => {
+    it("Should create a logger without context", () => {
       // when
       const instantiate = (): Logger => new Logger();
 
@@ -31,7 +33,7 @@ describe("simple-json-logger", () => {
       expect(instantiate).not.toThrow();
     });
 
-    test("Should create a logger with context", () => {
+    it("Should create a logger with context", () => {
       // given
       const context = {};
 
@@ -41,10 +43,49 @@ describe("simple-json-logger", () => {
       // then
       expect(instantiate).not.toThrow();
     });
+
+    it("Should create a logger with empty options", () => {
+      // given
+      const context = {};
+
+      // when
+      const instantiate = (): Logger => new Logger(context, {});
+
+      // then
+      expect(instantiate).not.toThrow();
+    });
+
+    it("Should create a logger including words into blacklist", () => {
+      // given
+      const context = {};
+
+      // when
+      const instantiate = (): Logger =>
+        new Logger(context, {
+          includeBlackList: [faker.random.word()],
+        });
+
+      // then
+      expect(instantiate).not.toThrow();
+    });
+
+    it("Should create a logger excluding words from blacklist", () => {
+      // given
+      const context = {};
+
+      // when
+      const instantiate = (): Logger =>
+        new Logger(context, {
+          excludeBlackList: [faker.random.word()],
+        });
+
+      // then
+      expect(instantiate).not.toThrow();
+    });
   });
 
   describe("debug", () => {
-    test("Should print debug log when doesn't have a level configured", () => {
+    it("Should print debug log when doesn't have a level configured", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -68,7 +109,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print debug log when configured level is debug", () => {
+    it("Should print debug log when configured level is debug", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "debug";
@@ -92,7 +133,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should not print debug log when configured level is info", () => {
+    it("Should not print debug log when configured level is info", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "info";
@@ -109,7 +150,7 @@ describe("simple-json-logger", () => {
       expect(mock).not.toBeCalled();
     });
 
-    test("Should not print debug log when configured level is warn", () => {
+    it("Should not print debug log when configured level is warn", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "warn";
@@ -126,7 +167,7 @@ describe("simple-json-logger", () => {
       expect(mock).not.toBeCalled();
     });
 
-    test("Should not print debug log when configured level is error", () => {
+    it("Should not print debug log when configured level is error", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "error";
@@ -143,7 +184,7 @@ describe("simple-json-logger", () => {
       expect(mock).not.toBeCalled();
     });
 
-    test("Shouldn't log debug when configured level is unknown", () => {
+    it("Shouldn't log debug when configured level is unknown", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -162,11 +203,39 @@ describe("simple-json-logger", () => {
 
       // then
       expect(mock).not.toBeCalled();
+    });
+
+    it("Should print debug log filtering sensitive information", () => {
+      // given
+      process.env.LOG_LEVEL = "debug";
+      const attribute1 = faker.random.word();
+      const attribute2 = faker.random.word();
+      const context = { [attribute1]: faker.lorem.paragraph() };
+      const logger = new Logger(context, {
+        includeBlackList: [attribute1, attribute2],
+      });
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = { [attribute2]: faker.lorem.paragraph() };
+      const expectedMessage = JSON.stringify({
+        [attribute1]: DEFAULT_PLACE_HOLDER,
+        level: "debug",
+        datetime: new Date().toISOString(),
+        message: `${testFunctionPrefix}: ${message}`,
+        [attribute2]: DEFAULT_PLACE_HOLDER,
+      });
+      console.debug = mock;
+
+      // when
+      logger.debug(message, extra);
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
     });
   });
 
   describe("info", () => {
-    test("Should print info log when doesn't have a level configured", () => {
+    it("Should print info log when doesn't have a level configured", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -190,7 +259,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print info log when configured level is debug", () => {
+    it("Should print info log when configured level is debug", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "debug";
@@ -214,7 +283,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print info log when configured level is info", () => {
+    it("Should print info log when configured level is info", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "info";
@@ -238,7 +307,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should not print info log when configured level is warn", () => {
+    it("Should not print info log when configured level is warn", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "warn";
@@ -255,7 +324,7 @@ describe("simple-json-logger", () => {
       expect(mock).not.toBeCalled();
     });
 
-    test("Should not print info log when configured level is error", () => {
+    it("Should not print info log when configured level is error", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "error";
@@ -272,7 +341,7 @@ describe("simple-json-logger", () => {
       expect(mock).not.toBeCalled();
     });
 
-    test("Shouldn't log info when configured level is unknown", () => {
+    it("Shouldn't log info when configured level is unknown", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -291,11 +360,39 @@ describe("simple-json-logger", () => {
 
       // then
       expect(mock).not.toBeCalled();
+    });
+
+    it("Should print info log filtering sensitive information", () => {
+      // given
+      process.env.LOG_LEVEL = "info";
+      const attribute1 = faker.random.word();
+      const attribute2 = faker.random.word();
+      const context = { [attribute1]: faker.lorem.paragraph() };
+      const logger = new Logger(context, {
+        includeBlackList: [attribute1, attribute2],
+      });
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = { [attribute2]: faker.lorem.paragraph() };
+      const expectedMessage = JSON.stringify({
+        [attribute1]: DEFAULT_PLACE_HOLDER,
+        level: "info",
+        datetime: new Date().toISOString(),
+        message: `${testFunctionPrefix}: ${message}`,
+        [attribute2]: DEFAULT_PLACE_HOLDER,
+      });
+      console.info = mock;
+
+      // when
+      logger.info(message, extra);
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
     });
   });
 
   describe("warn", () => {
-    test("Should print warn log when doesn't have a level configured", () => {
+    it("Should print warn log when doesn't have a level configured", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -319,7 +416,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print warn log when configured level is debug", () => {
+    it("Should print warn log when configured level is debug", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "debug";
@@ -343,7 +440,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print warn log when configured level is info", () => {
+    it("Should print warn log when configured level is info", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "info";
@@ -367,7 +464,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print warn log when configured level is warn", () => {
+    it("Should print warn log when configured level is warn", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "warn";
@@ -391,7 +488,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should not print warn log when configured level is error", () => {
+    it("Should not print warn log when configured level is error", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "error";
@@ -408,7 +505,7 @@ describe("simple-json-logger", () => {
       expect(mock).not.toBeCalled();
     });
 
-    test("Shouldn't log warn when configured level is unknown", () => {
+    it("Shouldn't log warn when configured level is unknown", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -427,11 +524,39 @@ describe("simple-json-logger", () => {
 
       // then
       expect(mock).not.toBeCalled();
+    });
+
+    it("Should print warn log filtering sensitive information", () => {
+      // given
+      process.env.LOG_LEVEL = "warn";
+      const attribute1 = faker.random.word();
+      const attribute2 = faker.random.word();
+      const context = { [attribute1]: faker.lorem.paragraph() };
+      const logger = new Logger(context, {
+        includeBlackList: [attribute1, attribute2],
+      });
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = { [attribute2]: faker.lorem.paragraph() };
+      const expectedMessage = JSON.stringify({
+        [attribute1]: DEFAULT_PLACE_HOLDER,
+        level: "warn",
+        datetime: new Date().toISOString(),
+        message: `${testFunctionPrefix}: ${message}`,
+        [attribute2]: DEFAULT_PLACE_HOLDER,
+      });
+      console.warn = mock;
+
+      // when
+      logger.warn(message, extra);
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
     });
   });
 
   describe("error", () => {
-    test("Should print error log when doesn't have a level configured", () => {
+    it("Should print error log when doesn't have a level configured", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -455,7 +580,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print error log when configured level is debug", () => {
+    it("Should print error log when configured level is debug", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "debug";
@@ -479,7 +604,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print error log when configured level is info", () => {
+    it("Should print error log when configured level is info", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "info";
@@ -503,7 +628,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print error log when configured level is warn", () => {
+    it("Should print error log when configured level is warn", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "warn";
@@ -527,7 +652,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should print error log when configured level is error", () => {
+    it("Should print error log when configured level is error", () => {
       // given
       const context = {};
       process.env.LOG_LEVEL = "error";
@@ -551,7 +676,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Shouldn't log error when configured level is unknown", () => {
+    it("Shouldn't log error when configured level is unknown", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -571,10 +696,38 @@ describe("simple-json-logger", () => {
       // then
       expect(mock).not.toBeCalled();
     });
+
+    it("Should print error log filtering sensitive information", () => {
+      // given
+      process.env.LOG_LEVEL = "error";
+      const attribute1 = faker.random.word();
+      const attribute2 = faker.random.word();
+      const context = { [attribute1]: faker.lorem.paragraph() };
+      const logger = new Logger(context, {
+        includeBlackList: [attribute1, attribute2],
+      });
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = { [attribute2]: faker.lorem.paragraph() };
+      const expectedMessage = JSON.stringify({
+        [attribute1]: DEFAULT_PLACE_HOLDER,
+        level: "error",
+        datetime: new Date().toISOString(),
+        message: `${testFunctionPrefix}: ${message}`,
+        [attribute2]: DEFAULT_PLACE_HOLDER,
+      });
+      console.error = mock;
+
+      // when
+      logger.error(message, extra);
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
+    });
   });
 
   describe("log", () => {
-    test("Should log debug level", () => {
+    it("Should log debug level", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -598,7 +751,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should log info level", () => {
+    it("Should log info level", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -622,7 +775,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should log warn level", () => {
+    it("Should log warn level", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -646,7 +799,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should log error level", () => {
+    it("Should log error level", () => {
       // given
       const context = {};
       delete process.env.LOG_LEVEL;
@@ -670,7 +823,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should log circular objects", () => {
+    it("Should log circular objects", () => {
       // given
       const context: { attribute?: object } = {};
       context.attribute = context;
@@ -682,7 +835,7 @@ describe("simple-json-logger", () => {
         name: faker.name.findName(),
       };
       const expectedMessage = JSON.stringify({
-        attribute: { attribute: "[Circular ~.attribute]" },
+        attribute: "[Circular ~]",
         level: "debug",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
@@ -697,7 +850,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should log class and method name when log from a class", () => {
+    it("Should log class and method name when log from a class", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -736,7 +889,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should log function name when log from a function", () => {
+    it("Should log function name when log from a function", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -767,7 +920,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Should log file name when log from a not function", () => {
+    it("Should log file name when log from a not function", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -795,7 +948,7 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
-    test("Shouldn't log when configured level is unknown", () => {
+    it("Shouldn't log when configured level is unknown", () => {
       // given
       const context = {
         requestId: faker.random.uuid(),
@@ -816,7 +969,7 @@ describe("simple-json-logger", () => {
       expect(mock).not.toBeCalled();
     });
 
-    test("Should log if the level is in upper case", () => {
+    it("Should log if the level is in upper case", () => {
       // given
       const context = {
         word: faker.random.word(),

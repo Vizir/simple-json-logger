@@ -1,6 +1,12 @@
 import stringify from "json-stringify-safe";
+import { LoggerFilter } from "./LoggerFilter";
 import { LogLevelEnum } from "./LogLevelEnum";
 import CallSite = NodeJS.CallSite;
+
+interface LoggerOptions {
+  includeBlackList?: string[];
+  excludeBlackList?: string[];
+}
 
 export class Logger {
   protected readonly logLevelsOrder: string[] = [
@@ -14,12 +20,18 @@ export class Logger {
 
   private readonly level: string;
 
-  public constructor(context?: object) {
+  private readonly filter: LoggerFilter;
+
+  public constructor(context?: object, options?: LoggerOptions) {
     this.context = context;
     this.level =
       process.env.LOG_LEVEL !== undefined
         ? process.env.LOG_LEVEL
         : LogLevelEnum.DEBUG;
+    this.filter = new LoggerFilter(
+      options?.includeBlackList,
+      options?.excludeBlackList
+    );
   }
 
   public debug(message: string, extra?: object): void {
@@ -98,11 +110,11 @@ export class Logger {
     extra?: object
   ): string {
     return stringify({
-      ...context,
+      ...this.filter.process(context),
       level,
       datetime: new Date().toISOString(),
       message: `${this.getOrigin()}: ${message}`,
-      ...extra,
+      ...this.filter.process(extra),
     });
   }
 

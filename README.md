@@ -31,19 +31,38 @@ logger.warn("warn message", { moreInfo: "abc123" });
 logger.error("error message", { otherInfo: "qwerty" });
 ```
 
-### NodeJS Sample with Typescript
+### Security Filtering
 
-```typescript
-import { Logger } from "@vizir/simple-json-logger";
+By default, the logger will filter some sensitive values from logs output. You can add or remove the default
+blacklist, using the _includeBlackList_ or _excludeBlackList_ attribute into options, as following:
 
-const logger = new Logger({
-  app: "ConsoleApplication",
-  requestId: "3a7d3223-e96f-47da-b3bb-73f609b9f55d",
-});
-logger.debug("debug message", { extraInfo: 123 });
-logger.info("info message", { extraInfo: "abc" });
-logger.warn("warn message", { moreInfo: "abc123" });
-logger.error("error message", { otherInfo: "qwerty" });
+_The black list check is case insensitive._
+
+```javascript
+const logger = new Logger(
+  {
+    app: "ConsoleApplication",
+    requestId: "3a7d3223-e96f-47da-b3bb-73f609b9f55d",
+  },
+  {
+    includeBlackList: ["myPasswordField"],
+    excludeBlackList: ["accessToken"],
+  }
+);
+logger.error("error message", { myPasswordField: "qwerty" });
+```
+
+The output of the following command are:
+
+```json
+{
+  "app": "ConsoleApplication",
+  "requestId": "3a7d3223-e96f-47da-b3bb-73f609b9f55d",
+  "level": "error",
+  "datetime": "2020-05-20T00:20:10.432Z",
+  "message": "origin: error message",
+  "myPasswordField": "*sensitive*"
+}
 ```
 
 ## Support
