@@ -1,6 +1,6 @@
 {
   "name": "@vizir/simple-json-logger",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "files": [
