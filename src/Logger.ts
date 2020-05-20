@@ -1,7 +1,7 @@
 import stringify from "json-stringify-safe";
 import { LoggerFilter } from "./LoggerFilter";
 import { LogLevelEnum } from "./LogLevelEnum";
-import CallSite = NodeJS.CallSite;
+import callSites from "callsites";
 
 interface LoggerOptions {
   includeBlackList?: string[];
@@ -75,13 +75,7 @@ export class Logger {
   }
 
   protected getOrigin(): string {
-    const CALLSITE_INDEX = 3;
-    const originalPrepareStackTrace = Error.prepareStackTrace;
-    Error.prepareStackTrace = (_: Error, stack: CallSite[]): CallSite[] =>
-      stack;
-    const originRaw = (new Error().stack as unknown) as CallSite[];
-    Error.prepareStackTrace = originalPrepareStackTrace;
-    const origin = originRaw[CALLSITE_INDEX];
+    const origin = callSites()[3];
 
     const methodName = origin.getMethodName();
     if (methodName !== null) {

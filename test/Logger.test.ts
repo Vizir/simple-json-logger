@@ -1,7 +1,7 @@
 import faker from "faker";
 import { Logger } from "../src/Logger";
 import { LogLevelEnum } from "../src/LogLevelEnum";
-import CallSite = NodeJS.CallSite;
+import callSites from "callsites";
 
 const DEFAULT_PLACE_HOLDER = "*sensitive*";
 
@@ -12,13 +12,7 @@ describe("simple-json-logger", () => {
     const mockDate = new Date();
     // @ts-ignore
     jest.spyOn(global, "Date").mockImplementation(() => mockDate);
-    const CALLSITE_INDEX_IN_TEST = 3;
-    const originalPrepareStackTrace = Error.prepareStackTrace;
-    Error.prepareStackTrace = (_: Error, stack: CallSite[]): CallSite[] =>
-      stack;
-    const originRaw = (new Error().stack as unknown) as CallSite[];
-    Error.prepareStackTrace = originalPrepareStackTrace;
-    const origin = originRaw[CALLSITE_INDEX_IN_TEST];
+    const origin = callSites()[3];
 
     testFunctionPrefix =
       origin.getFunctionName() !== null ? "test()" : origin.getFileName();
