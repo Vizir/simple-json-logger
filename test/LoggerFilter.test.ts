@@ -243,4 +243,20 @@ describe("LoggerFilter", () => {
     // Then
     expect(parsed).toStrictEqual(expectedResult);
   });
+
+  it("Should replace a read only property in freeze object", () => {
+    // Given
+    const key = faker.random.word();
+    const value = faker.random.word();
+    const item = Object.freeze({ [key]: value });
+    const expectedResult = { [key]: DEFAULT_PLACE_HOLDER };
+    const filter = new LoggerFilter([key]);
+
+    // When
+    // @ts-ignore
+    const parsed = filter.process(item);
+
+    // Then
+    expect(parsed).toStrictEqual(expectedResult);
+  });
 });
