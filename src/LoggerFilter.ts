@@ -59,7 +59,7 @@ export class LoggerFilter {
 
   private isOnBlacklist(key: string): boolean {
     return this.blackList.some((blacklistedKey: string) =>
-      key.toLowerCase().includes(blacklistedKey.toLowerCase())
+      key.toLocaleLowerCase().includes(blacklistedKey.toLocaleLowerCase())
     );
   }
 
