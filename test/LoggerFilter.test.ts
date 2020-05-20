@@ -5,16 +5,17 @@ import faker from "faker";
 const DEFAULT_PLACE_HOLDER = "*sensitive*";
 
 describe("LoggerFilter", () => {
-  it("Should return undefined when parameter is undefined", () => {
+  it("Should return empty object when parameter is undefined", () => {
     // Given
     const item = undefined;
     const filter = new LoggerFilter();
+    const expectedResult = {};
 
     // When
     const parsed = filter.process(item);
 
     // Then
-    expect(parsed).toBeUndefined();
+    expect(parsed).toStrictEqual(expectedResult);
   });
 
   it("Should return the original data when none sensitive data is found", () => {
@@ -223,6 +224,20 @@ describe("LoggerFilter", () => {
     const filter = new LoggerFilter([], [key]);
 
     // When
+    const parsed = filter.process(item);
+
+    // Then
+    expect(parsed).toStrictEqual(expectedResult);
+  });
+
+  it("Should work with invalid input", () => {
+    // Given
+    const item = faker.random.word();
+    const expectedResult = {};
+    const filter = new LoggerFilter();
+
+    // When
+    // @ts-ignore
     const parsed = filter.process(item);
 
     // Then

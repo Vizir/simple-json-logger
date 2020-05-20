@@ -15,9 +15,9 @@ export class LoggerFilter {
     this.blackList = this.generateBlackList(includeBlackList, excludeBlackList);
   }
 
-  public process(item?: TItem): object | undefined {
-    if (item === undefined) {
-      return item;
+  public process(item?: any): object {
+    if (item === undefined || item.constructor !== Object) {
+      return {};
     }
 
     return this.filterObject(this.clone(item));
