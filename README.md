@@ -36,10 +36,18 @@ logger.error("error message", { otherInfo: "qwerty" });
 
 ### Security Filtering
 
-By default, the logger will filter some sensitive values from logs output. You can add or remove the default
-blacklist, using the _includeBlackList_ or _excludeBlackList_ attribute into options, as following:
+By default, the logger will filter some sensitive values from logs output. They will verify if an object key, contain
+some of the following words: (The validation is case insensitive)
 
-_The black list check is case insensitive._
+- Authorization
+- Password
+- Secret
+- Token
+- X-Api-Key
+- xApiKey
+- X_Api_Key
+
+You can add or remove the default blacklist, using the _includeBlackList_ or _excludeBlackList_ attribute into options, as following:
 
 ```javascript
 const logger = new Logger(
