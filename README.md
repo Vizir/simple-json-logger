@@ -43,9 +43,7 @@ some of the following words: (The validation is case insensitive)
 - Password
 - Secret
 - Token
-- X-Api-Key
-- xApiKey
-- X_Api_Key
+- Key
 
 You can add or remove the default blacklist, using the _includeBlackList_ or _excludeBlackList_ attribute into options, as following:
 
