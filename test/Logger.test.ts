@@ -817,6 +817,52 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
+    it("Should log context null", () => {
+      // given
+      const context = (null as unknown) as object;
+      delete process.env.LOG_LEVEL;
+      const logger = new Logger(context);
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = {};
+      const expectedMessage = JSON.stringify({
+        ...extra,
+        level: "error",
+        datetime: new Date().toISOString(),
+        message: `${testFunctionPrefix}: ${message}`,
+      });
+      console.error = mock;
+
+      // when
+      logger.log(LogLevelEnum.ERROR, message, extra);
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
+    });
+
+    it("Should log extra null", () => {
+      // given
+      const context = {};
+      delete process.env.LOG_LEVEL;
+      const logger = new Logger(context);
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = (null as unknown) as object;
+      const expectedMessage = JSON.stringify({
+        ...context,
+        level: "error",
+        datetime: new Date().toISOString(),
+        message: `${testFunctionPrefix}: ${message}`,
+      });
+      console.error = mock;
+
+      // when
+      logger.log(LogLevelEnum.ERROR, message, extra);
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
+    });
+
     it("Should log circular objects", () => {
       // given
       const context: { attribute?: object } = {};

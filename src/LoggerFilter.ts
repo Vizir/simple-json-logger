@@ -16,7 +16,7 @@ export class LoggerFilter {
   }
 
   public process(item?: any): object {
-    if (item === undefined || item.constructor !== Object) {
+    if (item === undefined || item === null || item.constructor !== Object) {
       return {};
     }
 
