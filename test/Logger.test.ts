@@ -88,11 +88,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "debug",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.debug = mock;
 
@@ -112,11 +112,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "debug",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.debug = mock;
 
@@ -212,11 +212,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = { [attribute2]: faker.lorem.paragraph() };
       const expectedMessage = JSON.stringify({
-        [attribute1]: DEFAULT_PLACE_HOLDER,
+        context: { [attribute1]: DEFAULT_PLACE_HOLDER },
         level: "debug",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
-        [attribute2]: DEFAULT_PLACE_HOLDER,
+        extra: { [attribute2]: DEFAULT_PLACE_HOLDER },
       });
       console.debug = mock;
 
@@ -238,11 +238,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "info",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.info = mock;
 
@@ -262,11 +262,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "info",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.info = mock;
 
@@ -286,11 +286,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "info",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.info = mock;
 
@@ -369,11 +369,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = { [attribute2]: faker.lorem.paragraph() };
       const expectedMessage = JSON.stringify({
-        [attribute1]: DEFAULT_PLACE_HOLDER,
+        context: { [attribute1]: DEFAULT_PLACE_HOLDER },
         level: "info",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
-        [attribute2]: DEFAULT_PLACE_HOLDER,
+        extra: { [attribute2]: DEFAULT_PLACE_HOLDER },
       });
       console.info = mock;
 
@@ -395,11 +395,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "warn",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.warn = mock;
 
@@ -419,11 +419,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "warn",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.warn = mock;
 
@@ -443,11 +443,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "warn",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.warn = mock;
 
@@ -467,11 +467,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "warn",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.warn = mock;
 
@@ -533,11 +533,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = { [attribute2]: faker.lorem.paragraph() };
       const expectedMessage = JSON.stringify({
-        [attribute1]: DEFAULT_PLACE_HOLDER,
+        context: { [attribute1]: DEFAULT_PLACE_HOLDER },
         level: "warn",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
-        [attribute2]: DEFAULT_PLACE_HOLDER,
+        extra: { [attribute2]: DEFAULT_PLACE_HOLDER },
       });
       console.warn = mock;
 
@@ -559,11 +559,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.error = mock;
 
@@ -583,11 +583,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.error = mock;
 
@@ -607,11 +607,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.error = mock;
 
@@ -631,11 +631,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.error = mock;
 
@@ -655,11 +655,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.error = mock;
 
@@ -704,11 +704,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = { [attribute2]: faker.lorem.paragraph() };
       const expectedMessage = JSON.stringify({
-        [attribute1]: DEFAULT_PLACE_HOLDER,
+        context: { [attribute1]: DEFAULT_PLACE_HOLDER },
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
-        [attribute2]: DEFAULT_PLACE_HOLDER,
+        extra: { [attribute2]: DEFAULT_PLACE_HOLDER },
       });
       console.error = mock;
 
@@ -730,11 +730,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: LogLevelEnum.DEBUG,
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.debug = mock;
 
@@ -754,11 +754,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "info",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.info = mock;
 
@@ -778,11 +778,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "warn",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.warn = mock;
 
@@ -802,11 +802,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...context,
-        ...extra,
+        context,
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.error = mock;
 
@@ -826,10 +826,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = {};
       const expectedMessage = JSON.stringify({
-        ...extra,
+        context: {},
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra,
       });
       console.error = mock;
 
@@ -849,10 +850,11 @@ describe("simple-json-logger", () => {
       const mock = jest.fn();
       const extra = (null as unknown) as object;
       const expectedMessage = JSON.stringify({
-        ...context,
+        context,
         level: "error",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
+        extra: {},
       });
       console.error = mock;
 
@@ -875,11 +877,11 @@ describe("simple-json-logger", () => {
         name: faker.name.findName(),
       };
       const expectedMessage = JSON.stringify({
-        attribute: "[Circular ~]",
+        context: { attribute: "[Circular ~]" },
         level: "debug",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
-        ...extra,
+        extra,
       });
       console.debug = mock;
 
@@ -902,11 +904,11 @@ describe("simple-json-logger", () => {
         name: faker.name.findName(),
       };
       const expectedMessage = JSON.stringify({
-        ...context,
+        context,
         level: "debug",
         datetime: new Date().toISOString(),
         message: `TestClass.testMethod(): ${message}`,
-        ...extra,
+        extra,
       });
       console.debug = mock;
 
@@ -941,11 +943,11 @@ describe("simple-json-logger", () => {
         name: faker.name.findName(),
       };
       const expectedMessage = JSON.stringify({
-        ...context,
+        context,
         level: "debug",
         datetime: new Date().toISOString(),
         message: `testFunction(): ${message}`,
-        ...extra,
+        extra,
       });
       console.debug = mock;
       const testFunction = (): void => {
@@ -973,11 +975,11 @@ describe("simple-json-logger", () => {
         name: faker.name.findName(),
       };
       const expectedMessage = JSON.stringify({
-        ...context,
+        context,
         level: "debug",
         datetime: new Date().toISOString(),
         message: `${__filename}: ${message}`,
-        ...extra,
+        extra,
       });
       console.debug = mock;
 
@@ -1022,11 +1024,11 @@ describe("simple-json-logger", () => {
         paragraph: faker.lorem.paragraph(),
       };
       const expectedMessage = JSON.stringify({
-        ...context,
+        context,
         level: LogLevelEnum.DEBUG,
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,
-        ...extra,
+        extra,
       });
       console.debug = mock;
 

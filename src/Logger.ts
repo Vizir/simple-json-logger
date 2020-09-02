@@ -104,11 +104,11 @@ export class Logger {
     extra?: object
   ): string {
     return stringify({
-      ...this.filter.process(context),
+      context: this.filter.process(context),
       level,
       datetime: new Date().toISOString(),
       message: `${this.getOrigin()}: ${message}`,
-      ...this.filter.process(extra),
+      extra: this.filter.process(extra),
     });
   }
 
