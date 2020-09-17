@@ -1,18 +1,23 @@
 import stringify from "json-stringify-safe";
 import { DEFAULT_BLACK_LIST } from "./DefaultBlackList";
+import { DEFAULT_WHITE_LIST } from "./DefaultWhiteList";
 
 type TItem = { [key: string]: any };
 
 export class LoggerFilter {
   private readonly blackList: string[];
+  private readonly whiteList: string[];
 
   private readonly placeholder: string = "*sensitive*";
 
   public constructor(
     includeBlackList: string[] = [],
-    excludeBlackList: string[] = []
+    excludeBlackList: string[] = [],
+    includeWhiteList: string[] = [],
+    excludeWhiteList: string[] = [],
   ) {
     this.blackList = this.generateBlackList(includeBlackList, excludeBlackList);
+    this.whiteList = this.generateWhiteList(includeWhiteList, excludeWhiteList);
   }
 
   public process(item?: any): object {
@@ -32,7 +37,7 @@ export class LoggerFilter {
   }
 
   private filterItem(key: string, item: any): any {
-    if (this.isOnBlacklist(key)) {
+    if (this.isOnBlacklist(key) && !this.isOnWhitelist(key)) {
       return this.placeholder;
     }
 
@@ -61,6 +66,12 @@ export class LoggerFilter {
     );
   }
 
+  private isOnWhitelist(key: string): boolean {
+    return this.whiteList.some((whitelistedKey: string) =>
+      key.toLocaleLowerCase().includes(whitelistedKey.toLocaleLowerCase())
+    );
+  }
+
   private isPlainObject(value: any): boolean {
     return value?.constructor === Object;
   }
@@ -86,5 +97,15 @@ export class LoggerFilter {
       (item: string): boolean => !excludeBlackList.includes(item)
     );
     return newBlackList.concat(includeBlackList);
+  }
+
+  private generateWhiteList(
+    includeWhiteList: string[],
+    excludeWhiteList: string[]
+  ): string[] {
+    const newWhiteList = DEFAULT_WHITE_LIST.filter(
+      (item: string): boolean => !excludeWhiteList.includes(item)
+    );
+    return newWhiteList.concat(includeWhiteList);
   }
 }
