@@ -6,6 +6,7 @@ import callSites from "callsites";
 interface LoggerOptions {
   includeBlackList?: string[];
   excludeBlackList?: string[];
+  whiteList?: string[];
 }
 
 export class Logger {
@@ -30,7 +31,8 @@ export class Logger {
         : LogLevelEnum.DEBUG;
     this.filter = new LoggerFilter(
       options?.includeBlackList,
-      options?.excludeBlackList
+      options?.excludeBlackList,
+      options?.whiteList
     );
   }
 
