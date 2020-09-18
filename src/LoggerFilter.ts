@@ -1,6 +1,5 @@
 import stringify from "json-stringify-safe";
 import { DEFAULT_BLACK_LIST } from "./DefaultBlackList";
-import { DEFAULT_WHITE_LIST } from "./DefaultWhiteList";
 
 type TItem = { [key: string]: any };
 
@@ -13,11 +12,10 @@ export class LoggerFilter {
   public constructor(
     includeBlackList: string[] = [],
     excludeBlackList: string[] = [],
-    includeWhiteList: string[] = [],
-    excludeWhiteList: string[] = []
+    exceptions: string[] = []
   ) {
     this.blackList = this.generateBlackList(includeBlackList, excludeBlackList);
-    this.whiteList = this.generateWhiteList(includeWhiteList, excludeWhiteList);
+    this.whiteList = exceptions;
   }
 
   public process(item?: any): object {
@@ -97,15 +95,5 @@ export class LoggerFilter {
       (item: string): boolean => !excludeBlackList.includes(item)
     );
     return newBlackList.concat(includeBlackList);
-  }
-
-  private generateWhiteList(
-    includeWhiteList: string[],
-    excludeWhiteList: string[]
-  ): string[] {
-    const newWhiteList = DEFAULT_WHITE_LIST.filter(
-      (item: string): boolean => !excludeWhiteList.includes(item)
-    );
-    return newWhiteList.concat(includeWhiteList);
   }
 }

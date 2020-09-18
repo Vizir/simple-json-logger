@@ -1,5 +1,4 @@
 import { DEFAULT_BLACK_LIST } from "../src/DefaultBlackList";
-import { DEFAULT_WHITE_LIST } from "../src/DefaultWhiteList";
 import { LoggerFilter } from "../src/LoggerFilter";
 import faker from "faker";
 
@@ -87,53 +86,6 @@ describe("LoggerFilter", () => {
     const item = { [key]: word };
     const expectedResult = { [key]: DEFAULT_PLACE_HOLDER };
     const filter = new LoggerFilter([key], []);
-
-    // When
-    const parsed = filter.process(item);
-
-    // Then
-    expect(parsed).toStrictEqual(expectedResult);
-  });
-
-  it("Shouldn't replace some default whitelist word", () => {
-    // Given
-    const key = faker.random.arrayElement(DEFAULT_WHITE_LIST);
-    const word = faker.random.word();
-    const item = { [key]: word };
-    const expectedResult = { [key]: word };
-    const filter = new LoggerFilter([key]);
-
-    // When
-    const parsed = filter.process(item);
-
-    // Then
-    expect(parsed).toStrictEqual(expectedResult);
-  });
-
-  it("Shouldn't replace some default whitelist word as is in another case", () => {
-    // Given
-    const rawKey = faker.random.arrayElement(DEFAULT_WHITE_LIST);
-    const key = rawKey.toLocaleUpperCase();
-    const word = faker.random.word();
-    const item = { [key]: word };
-    const expectedResult = { [key]: word };
-    const filter = new LoggerFilter([key]);
-
-    // When
-    const parsed = filter.process(item);
-
-    // Then
-    expect(parsed).toStrictEqual(expectedResult);
-  });
-
-  it("Should replace some blacklist word when it's in excludeWhiteList", () => {
-    // Given
-    const key = faker.random.arrayElement(DEFAULT_WHITE_LIST);
-    const word = faker.random.word();
-    const item = { [key]: word };
-    const expectedResult = { [key]: DEFAULT_PLACE_HOLDER };
-
-    const filter = new LoggerFilter([key], [], [], [key]);
 
     // When
     const parsed = filter.process(item);
