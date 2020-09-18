@@ -12,10 +12,10 @@ export class LoggerFilter {
   public constructor(
     includeBlackList: string[] = [],
     excludeBlackList: string[] = [],
-    exceptions: string[] = []
+    whitelist: string[] = []
   ) {
     this.blackList = this.generateBlackList(includeBlackList, excludeBlackList);
-    this.whiteList = exceptions;
+    this.whiteList = whitelist;
   }
 
   public process(item?: any): object {
