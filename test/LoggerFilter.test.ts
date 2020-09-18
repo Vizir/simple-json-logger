@@ -94,6 +94,21 @@ describe("LoggerFilter", () => {
     expect(parsed).toStrictEqual(expectedResult);
   });
 
+  it("Shouldn't replace some new item in whitelist", () => {
+    // Given
+    const key = faker.random.word();
+    const word = faker.random.word();
+    const item = { [key]: word };
+    const expectedResult = { [key]: word };
+    const filter = new LoggerFilter([key], [], [key]);
+
+    // When
+    const parsed = filter.process(item);
+
+    // Then
+    expect(parsed).toStrictEqual(expectedResult);
+  });
+
   it("Should replace into a nested object", () => {
     // Given
     const key = faker.random.word();
