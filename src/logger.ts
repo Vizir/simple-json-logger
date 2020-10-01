@@ -1,13 +1,8 @@
-import stringify from "json-stringify-safe";
-import { LoggerFilter } from "./logger-filter";
-import { LogLevelEnum } from "./log-level-enum";
 import callSites from "callsites";
-
-interface LoggerOptions {
-  includeBlackList?: string[];
-  excludeBlackList?: string[];
-  whiteList?: string[];
-}
+import stringify from "json-stringify-safe";
+import { LogLevelEnum } from "./log-level-enum";
+import { LoggerFilter } from "./logger-filter";
+import { LoggerOptions } from "./logger-options";
 
 export class Logger {
   protected readonly logLevelsOrder: string[] = [
