@@ -10,6 +10,7 @@ describe("simple-json-logger", () => {
 
   beforeAll(async () => {
     const mockDate = new Date();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     jest.spyOn(global, "Date").mockImplementation(() => mockDate);
     const origin = callSites()[3];

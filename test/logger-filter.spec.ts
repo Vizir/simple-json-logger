@@ -272,6 +272,7 @@ describe("LoggerFilter", () => {
     const filter = new LoggerFilter();
 
     // When
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const parsed = filter.process(item);
 
@@ -288,6 +289,7 @@ describe("LoggerFilter", () => {
     const filter = new LoggerFilter([key]);
 
     // When
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const parsed = filter.process(item);
 
