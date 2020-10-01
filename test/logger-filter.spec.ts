@@ -200,6 +200,26 @@ describe("LoggerFilter", () => {
     expect(parsed).toStrictEqual(expectedResult);
   });
 
+  it("Should serialize an error", () => {
+    // Given
+    const error = new Error("My internal error");
+    const item = { error };
+    const expectedResult = {
+      error: {
+        message: "My internal error",
+        name: "Error",
+      },
+    };
+    const filter = new LoggerFilter();
+
+    // When
+    const parsed: any = filter.process(item);
+
+    // Then
+    expect(parsed.error.message).toBe(expectedResult.error.message);
+    expect(parsed.error.name).toBe(expectedResult.error.name);
+  });
+
   it("Should replace an item value when it is an array of string", () => {
     // Given
     const key = faker.random.arrayElement(DEFAULT_BLACK_LIST);

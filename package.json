@@ -28,6 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/callsites": "^3.0.0",
+    "@types/clone": "^2.1.0",
     "@types/faker": "^4.1.12",
     "@types/jest": "^26.0.13",
     "@types/json-stringify-safe": "^5.0.0",
@@ -52,7 +53,9 @@
   },
   "dependencies": {
     "callsites": "^3.1.0",
-    "json-stringify-safe": "^5.0.1"
+    "clone": "^2.1.2",
+    "json-stringify-safe": "^5.0.1",
+    "serialize-error": "^7.0.1"
   },
   "description": "The simplest json logger. Include typescript definitions.",
   "repository": {
