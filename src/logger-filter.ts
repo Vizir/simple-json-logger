@@ -1,5 +1,5 @@
 import stringify from "json-stringify-safe";
-import { DEFAULT_BLACK_LIST } from "./DefaultBlackList";
+import { DEFAULT_BLACK_LIST } from "./default-black-list";
 
 type TItem = { [key: string]: any };
 

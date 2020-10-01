@@ -1,5 +1,5 @@
-import { DEFAULT_BLACK_LIST } from "../src/DefaultBlackList";
-import { LoggerFilter } from "../src/LoggerFilter";
+import { DEFAULT_BLACK_LIST } from "../src/default-black-list";
+import { LoggerFilter } from "../src/logger-filter";
 import faker from "faker";
 
 const DEFAULT_PLACE_HOLDER = "*sensitive*";

@@ -1,6 +1,6 @@
 import stringify from "json-stringify-safe";
-import { LoggerFilter } from "./LoggerFilter";
-import { LogLevelEnum } from "./LogLevelEnum";
+import { LoggerFilter } from "./logger-filter";
+import { LogLevelEnum } from "./log-level-enum";
 import callSites from "callsites";
 
 interface LoggerOptions {

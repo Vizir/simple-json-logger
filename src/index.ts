@@ -1,2 +1,2 @@
-export { Logger } from "./Logger";
-export { LogLevelEnum } from "./LogLevelEnum.js";
+export { Logger } from "./logger";
+export { LogLevelEnum } from "./log-level-enum.js";

@@ -1,6 +1,6 @@
 import faker from "faker";
-import { Logger } from "../src/Logger";
-import { LogLevelEnum } from "../src/LogLevelEnum";
+import { Logger } from "../src/logger";
+import { LogLevelEnum } from "../src/log-level-enum";
 import callSites from "callsites";
 
 const DEFAULT_PLACE_HOLDER = "*sensitive*";
