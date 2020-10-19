@@ -1,4 +1,3 @@
-import clone from "clone";
 import stringify from "json-stringify-safe";
 import { serializeError } from "serialize-error";
 import { DEFAULT_BLACK_LIST } from "./default-black-list";
@@ -26,7 +25,7 @@ export class LoggerFilter {
     }
 
     try {
-      return this.filterObject(this.clone(item));
+      return this.filterObject(item);
     } catch (error) {
       /* istanbul ignore next */
       return {};
@@ -34,15 +33,17 @@ export class LoggerFilter {
   }
 
   private filterObject(item: TItem): TItem {
+    const result: any = {};
+
     const objectWithoutCircularReference = JSON.parse(stringify(item));
     Object.keys(item).forEach((key: string): void => {
       const innerObject = this.isPlainObject(item[key])
         ? objectWithoutCircularReference[key]
         : item[key];
-      item[key] = this.filterItem(key, innerObject);
+      result[key] = this.filterItem(key, innerObject);
     });
 
-    return item;
+    return result;
   }
 
   private filterItem(key: string, item: any): any {
@@ -67,10 +68,6 @@ export class LoggerFilter {
     }
 
     return item;
-  }
-
-  private clone(item: object): object {
-    return clone(item);
   }
 
   private isOnBlacklist(key: string): boolean {
