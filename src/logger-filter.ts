@@ -25,7 +25,12 @@ export class LoggerFilter {
       return {};
     }
 
-    return this.filterObject(this.clone(item));
+    try {
+      return this.filterObject(this.clone(item));
+    } catch (error) {
+      /* istanbul ignore next */
+      return {};
+    }
   }
 
   private filterObject(item: TItem): TItem {
