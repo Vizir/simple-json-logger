@@ -220,6 +220,34 @@ describe("LoggerFilter", () => {
     expect(parsed.error.name).toBe(expectedResult.error.name);
   });
 
+  it("Should serialize an axios error removing not need attributes", () => {
+    // Given
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const error = require("./fixtures/axios-error.json");
+    error.__proto__ = Error.prototype;
+    const item = { error };
+    const expectedError = {
+      error: {
+        config: error.config,
+        message: error.message,
+        name: error.name,
+        response: {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          headers: error.response.headers,
+          data: error.response.data,
+        },
+      },
+    };
+    const filter = new LoggerFilter();
+
+    // When
+    const result = filter.process(item);
+
+    // Then
+    expect(result).toStrictEqual(expectedError);
+  });
+
   it("Should replace an item value when it is an array of string", () => {
     // Given
     const key = faker.random.arrayElement(DEFAULT_BLACK_LIST);

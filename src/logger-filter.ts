@@ -52,7 +52,7 @@ export class LoggerFilter {
     }
 
     if (item instanceof Error) {
-      return serializeError(item);
+      return this.filterError(item);
     }
 
     if (this.isPlainObject(item)) {
@@ -107,5 +107,23 @@ export class LoggerFilter {
       (item: string): boolean => !excludeBlackList.includes(item)
     );
     return newBlackList.concat(includeBlackList);
+  }
+
+  private filterError(error: any) {
+    if (error.isAxiosError) {
+      return serializeError({
+        config: error.config,
+        message: error.message,
+        name: error.name,
+        response: {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          headers: error.response.headers,
+          data: error.response.data,
+        },
+      });
+    }
+
+    return serializeError(error);
   }
 }
