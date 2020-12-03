@@ -932,6 +932,49 @@ describe("simple-json-logger", () => {
       expect(mock).toBeCalledWith(expectedMessage);
     });
 
+    it("Should log class and method using originIndex stack level", () => {
+      // given
+      const context = {
+        requestId: faker.random.uuid(),
+      };
+      delete process.env.LOG_LEVEL;
+      const message = faker.lorem.paragraph();
+      const mock = jest.fn();
+      const extra = {
+        name: faker.name.findName(),
+      };
+      const expectedMessage = JSON.stringify({
+        context,
+        level: "debug",
+        datetime: new Date().toISOString(),
+        message: `TestClass.testMethodCaller(): ${message}`,
+        extra,
+      });
+      console.debug = mock;
+
+      class TestClass {
+        private readonly logger: Logger;
+
+        public constructor() {
+          this.logger = new Logger(context, { originIndex: 4 });
+        }
+
+        public testMethod(): void {
+          this.logger.debug(message, extra);
+        }
+
+        public testMethodCaller(): void {
+          this.testMethod();
+        }
+      }
+
+      // when
+      new TestClass().testMethodCaller();
+
+      // then
+      expect(mock).toBeCalledWith(expectedMessage);
+    });
+
     it("Should log function name when log from a function", () => {
       // given
       const context = {
