@@ -16,6 +16,8 @@ export class Logger {
 
   private readonly level: string;
 
+  private readonly originIndex: number;
+
   private readonly filter: LoggerFilter;
 
   public constructor(context?: object, options?: LoggerOptions) {
@@ -29,6 +31,7 @@ export class Logger {
       options?.excludeBlackList,
       options?.whiteList
     );
+    this.originIndex = options?.originIndex ?? 3;
   }
 
   public debug(message: string, extra?: object): void {
@@ -72,7 +75,7 @@ export class Logger {
   }
 
   protected getOrigin(): string {
-    const origin = callSites()[3];
+    const origin = callSites()[this.originIndex];
 
     const methodName = origin.getMethodName();
     if (methodName !== null) {
