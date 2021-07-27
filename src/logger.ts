@@ -1,5 +1,5 @@
 import callSites from "callsites";
-import stringify from "json-stringify-safe";
+import { stringify } from "lossless-json";
 import { LogLevelEnum } from "./log-level-enum";
 import { LoggerFilter } from "./logger-filter";
 import { LoggerOptions } from "./logger-options";

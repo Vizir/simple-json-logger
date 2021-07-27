@@ -1,4 +1,5 @@
 import stringify from "json-stringify-safe";
+import { LosslessNumber, parse } from "lossless-json";
 import { serializeError } from "serialize-error";
 import { DEFAULT_BLACK_LIST } from "./default-black-list";
 
@@ -35,7 +36,7 @@ export class LoggerFilter {
   private filterObject(item: TItem): TItem {
     const result: any = {};
 
-    const objectWithoutCircularReference = JSON.parse(stringify(item));
+    const objectWithoutCircularReference = parse(stringify(item));
     Object.keys(item).forEach((key: string): void => {
       const innerObject = this.isPlainObject(item[key])
         ? objectWithoutCircularReference[key]
@@ -55,12 +56,16 @@ export class LoggerFilter {
       return this.filterError(item);
     }
 
+    if (item instanceof LosslessNumber) {
+      return item.value;
+    }
+
     if (this.isPlainObject(item)) {
       return this.filterObject(item);
     }
 
     if (this.isJSONString(item)) {
-      return stringify(this.filterItem(key, JSON.parse(item)));
+      return this.filterItem(key, parse(item));
     }
 
     if (Array.isArray(item)) {

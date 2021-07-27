@@ -124,13 +124,27 @@ describe("LoggerFilter", () => {
     expect(parsed).toStrictEqual(expectedResult);
   });
 
+  it("Should replace into a nested object with number", () => {
+    // Given
+    const number = "61009801560022021";
+    const item = { value: number };
+    const expectedResult = { value: number };
+    const filter = new LoggerFilter([], []);
+
+    // When
+    const parsed = filter.process(item);
+
+    // Then
+    expect(parsed).toStrictEqual(expectedResult);
+  });
+
   it("Should replace into a nested stringify object", () => {
     // Given
     const key = faker.random.word();
     const word = faker.random.word();
     const item = { nested: JSON.stringify({ [key]: word }) };
     const expectedResult = {
-      nested: JSON.stringify({ [key]: DEFAULT_PLACE_HOLDER }),
+      nested: { [key]: DEFAULT_PLACE_HOLDER },
     };
     const filter = new LoggerFilter([key], []);
 

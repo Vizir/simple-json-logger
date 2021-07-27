@@ -868,7 +868,9 @@ describe("simple-json-logger", () => {
 
     it("Should log circular objects", () => {
       // given
-      const context: { attribute?: object } = {};
+      const context: { attribute?: object; otherProp: number } = {
+        otherProp: faker.random.number(),
+      };
       context.attribute = context;
       delete process.env.LOG_LEVEL;
       const logger = new Logger(context);
@@ -878,7 +880,7 @@ describe("simple-json-logger", () => {
         name: faker.name.findName(),
       };
       const expectedMessage = JSON.stringify({
-        context: { attribute: "[Circular ~]" },
+        context: { otherProp: context.otherProp, attribute: "[Circular ~]" },
         level: "debug",
         datetime: new Date().toISOString(),
         message: `${testFunctionPrefix}: ${message}`,

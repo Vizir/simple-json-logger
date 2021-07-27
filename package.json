@@ -31,6 +31,7 @@
     "@types/faker": "^5.1.2",
     "@types/jest": "^26.0.14",
     "@types/json-stringify-safe": "^5.0.0",
+    "@types/lossless-json": "^1.0.1",
     "@types/node": "^14.11.10",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
@@ -53,6 +54,7 @@
   "dependencies": {
     "callsites": "^3.1.0",
     "json-stringify-safe": "^5.0.1",
+    "lossless-json": "^1.0.5",
     "serialize-error": "^7.0.1"
   },
   "description": "The simplest json logger. Include typescript definitions.",
