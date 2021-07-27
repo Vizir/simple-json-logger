@@ -173,7 +173,7 @@ describe("LoggerFilter", () => {
   it("Should replace boolean values in blacklist", () => {
     // Given
     const key = faker.random.word();
-    const bool = faker.random.boolean();
+    const bool = faker.datatype.boolean();
     const item = { nested: { [key]: bool } };
     const expectedResult = { nested: { [key]: DEFAULT_PLACE_HOLDER } };
     const filter = new LoggerFilter([key], []);
@@ -202,7 +202,11 @@ describe("LoggerFilter", () => {
 
   it("Should can work with array of string", () => {
     // Given
-    const ids = [faker.random.uuid(), faker.random.uuid(), faker.random.uuid()];
+    const ids = [
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+    ];
     const item = { ids };
     const expectedResult = { ids };
     const filter = new LoggerFilter();
@@ -265,7 +269,11 @@ describe("LoggerFilter", () => {
   it("Should replace an item value when it is an array of string", () => {
     // Given
     const key = faker.random.arrayElement(DEFAULT_BLACK_LIST);
-    const ids = [faker.random.uuid(), faker.random.uuid(), faker.random.uuid()];
+    const ids = [
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+    ];
     const item = { [key]: ids };
     const expectedResult = { [key]: DEFAULT_PLACE_HOLDER };
     const filter = new LoggerFilter();

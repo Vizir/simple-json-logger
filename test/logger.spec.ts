@@ -182,7 +182,7 @@ describe("simple-json-logger", () => {
     it("Shouldn't log debug when configured level is unknown", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       process.env.LOG_LEVEL = faker.random.word();
       const message = faker.lorem.paragraph();
@@ -339,7 +339,7 @@ describe("simple-json-logger", () => {
     it("Shouldn't log info when configured level is unknown", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       process.env.LOG_LEVEL = faker.random.word();
       const message = faker.lorem.paragraph();
@@ -503,7 +503,7 @@ describe("simple-json-logger", () => {
     it("Shouldn't log warn when configured level is unknown", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       process.env.LOG_LEVEL = faker.random.word();
       const message = faker.lorem.paragraph();
@@ -674,7 +674,7 @@ describe("simple-json-logger", () => {
     it("Shouldn't log error when configured level is unknown", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       process.env.LOG_LEVEL = faker.random.word();
       const message = faker.lorem.paragraph();
@@ -820,7 +820,7 @@ describe("simple-json-logger", () => {
 
     it("Should log context null", () => {
       // given
-      const context = (null as unknown) as object;
+      const context = null as unknown as object;
       delete process.env.LOG_LEVEL;
       const logger = new Logger(context);
       const message = faker.lorem.paragraph();
@@ -849,7 +849,7 @@ describe("simple-json-logger", () => {
       const logger = new Logger(context);
       const message = faker.lorem.paragraph();
       const mock = jest.fn();
-      const extra = (null as unknown) as object;
+      const extra = null as unknown as object;
       const expectedMessage = JSON.stringify({
         context,
         level: "error",
@@ -869,7 +869,7 @@ describe("simple-json-logger", () => {
     it("Should log circular objects", () => {
       // given
       const context: { attribute?: object; otherProp: number } = {
-        otherProp: faker.random.number(),
+        otherProp: faker.datatype.number(),
       };
       context.attribute = context;
       delete process.env.LOG_LEVEL;
@@ -898,7 +898,7 @@ describe("simple-json-logger", () => {
     it("Should log class and method name when log from a class", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       delete process.env.LOG_LEVEL;
       const message = faker.lorem.paragraph();
@@ -937,7 +937,7 @@ describe("simple-json-logger", () => {
     it("Should log class and method using originIndex stack level", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       delete process.env.LOG_LEVEL;
       const message = faker.lorem.paragraph();
@@ -980,7 +980,7 @@ describe("simple-json-logger", () => {
     it("Should log function name when log from a function", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       delete process.env.LOG_LEVEL;
       const message = faker.lorem.paragraph();
@@ -1011,7 +1011,7 @@ describe("simple-json-logger", () => {
     it("Should log file name when log from a not function", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       delete process.env.LOG_LEVEL;
       const message = faker.lorem.paragraph();
@@ -1039,7 +1039,7 @@ describe("simple-json-logger", () => {
     it("Shouldn't log when configured level is unknown", () => {
       // given
       const context = {
-        requestId: faker.random.uuid(),
+        requestId: faker.datatype.uuid(),
       };
       process.env.LOG_LEVEL = faker.random.word();
       const message = faker.lorem.paragraph();
