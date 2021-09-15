@@ -23,9 +23,7 @@ export class Logger {
   public constructor(context?: object, options?: LoggerOptions) {
     this.context = context;
     this.level =
-      process.env.LOG_LEVEL !== undefined
-        ? process.env.LOG_LEVEL
-        : LogLevelEnum.DEBUG;
+      options?.logLevel ?? process.env.LOG_LEVEL ?? LogLevelEnum.DEBUG;
     this.filter = new LoggerFilter(
       options?.includeBlackList,
       options?.excludeBlackList,
