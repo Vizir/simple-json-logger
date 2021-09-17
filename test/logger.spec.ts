@@ -77,6 +77,55 @@ describe("simple-json-logger", () => {
       // then
       expect(instantiate).not.toThrow();
     });
+
+    it("Should set level when provided in options", () => {
+      // given
+      const context = {};
+      const logLevel = faker.random.arrayElement([
+        LogLevelEnum.DEBUG,
+        LogLevelEnum.ERROR,
+        LogLevelEnum.INFO,
+        LogLevelEnum.WARN,
+      ]);
+
+      // when
+      const logger = new Logger(context, { logLevel });
+
+      // then
+      expect(logger).toHaveProperty("level", logLevel);
+    });
+
+    it("Should set level when provided in environment", () => {
+      // given
+      const context = {};
+      const logLevel = faker.random.arrayElement([
+        LogLevelEnum.DEBUG,
+        LogLevelEnum.ERROR,
+        LogLevelEnum.INFO,
+        LogLevelEnum.WARN,
+      ]);
+
+      process.env.LOG_LEVEL = logLevel;
+
+      // when
+      const logger = new Logger(context);
+
+      // then
+      expect(logger).toHaveProperty("level", logLevel);
+    });
+
+    it("Should set the level as debug when none is provided", () => {
+      // given
+      const context = {};
+      delete process.env.LOG_LEVEL;
+      const defaultLogLevel = LogLevelEnum.DEBUG;
+
+      // when
+      const logger = new Logger(context);
+
+      // then
+      expect(logger).toHaveProperty("level", defaultLogLevel);
+    });
   });
 
   describe("debug", () => {
