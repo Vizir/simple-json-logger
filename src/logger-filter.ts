@@ -41,10 +41,23 @@ export class LoggerFilter {
       const innerObject = this.isPlainObject(item[key])
         ? objectWithoutCircularReference[key]
         : item[key];
+
       result[key] = this.filterItem(key, innerObject);
     });
 
     return result;
+  }
+
+  private isLossLessNumber(value: any): boolean {
+    if (value instanceof LosslessNumber) {
+      return true;
+    }
+
+    if (value?.constructor === Object && value.type === "LosslessNumber") {
+      return true;
+    }
+
+    return false;
   }
 
   private filterItem(key: string, item: any): any {
@@ -53,10 +66,10 @@ export class LoggerFilter {
     }
 
     if (item instanceof Error) {
-      return this.filterError(item);
+      return this.filterObject(this.filterError(item));
     }
 
-    if (item instanceof LosslessNumber) {
+    if (this.isLossLessNumber(item)) {
       return item.value;
     }
 

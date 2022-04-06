@@ -238,7 +238,7 @@ describe("LoggerFilter", () => {
     expect(parsed.error.name).toBe(expectedResult.error.name);
   });
 
-  it("Should serialize an axios error removing not need attributes", () => {
+  it("Should serialize an axios error removing useless attributes and replacing sensitive content", () => {
     // Given
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const error = require("./fixtures/axios-error.json");
@@ -246,11 +246,21 @@ describe("LoggerFilter", () => {
     const item = { error };
     const expectedError = {
       error: {
-        config: error.config,
+        config: {
+          ...error.config,
+          data: {},
+          maxContentLength: error.config.maxContentLength.toString(),
+          timeout: error.config.timeout.toString(),
+          headers: {
+            ...error.config.headers,
+            "x-api-key": DEFAULT_PLACE_HOLDER,
+            countryId: error.config.headers.countryId.toString(),
+          },
+        },
         message: error.message,
         name: error.name,
         response: {
-          status: error.response.status,
+          status: error.response.status.toString(),
           statusText: error.response.statusText,
           headers: error.response.headers,
           data: error.response.data,
