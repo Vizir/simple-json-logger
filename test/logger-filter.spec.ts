@@ -1,6 +1,7 @@
 import { DEFAULT_BLACK_LIST } from "../src/default-black-list";
 import { LoggerFilter } from "../src/logger-filter";
 import faker from "faker";
+import { parse } from "lossless-json";
 
 const DEFAULT_PLACE_HOLDER = "*sensitive*";
 
@@ -147,6 +148,25 @@ describe("LoggerFilter", () => {
       nested: { [key]: DEFAULT_PLACE_HOLDER },
     };
     const filter = new LoggerFilter([key], []);
+
+    // When
+    const parsed = filter.process(item);
+
+    // Then
+    expect(parsed).toStrictEqual(expectedResult);
+  });
+
+  it("Should return the original data when losslessNumber is converted to pure object", () => {
+    // Given
+    const key = faker.random.word();
+    const value = faker.datatype.number().toString();
+    const losslessNumberInstance = parse(value);
+    const losslessNumberPureObject = JSON.parse(
+      JSON.stringify(losslessNumberInstance)
+    );
+    const item = { [key]: losslessNumberPureObject };
+    const expectedResult = { [key]: value };
+    const filter = new LoggerFilter();
 
     // When
     const parsed = filter.process(item);

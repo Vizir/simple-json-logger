@@ -41,7 +41,6 @@ export class LoggerFilter {
       const innerObject = this.isPlainObject(item[key])
         ? objectWithoutCircularReference[key]
         : item[key];
-
       result[key] = this.filterItem(key, innerObject);
     });
 
