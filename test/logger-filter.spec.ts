@@ -1,6 +1,7 @@
 import { DEFAULT_BLACK_LIST } from "../src/default-black-list";
 import { LoggerFilter } from "../src/logger-filter";
 import faker from "faker";
+import { parse } from "lossless-json";
 
 const DEFAULT_PLACE_HOLDER = "*sensitive*";
 
@@ -155,6 +156,25 @@ describe("LoggerFilter", () => {
     expect(parsed).toStrictEqual(expectedResult);
   });
 
+  it("Should return the original data when losslessNumber is converted to pure object", () => {
+    // Given
+    const key = faker.random.word();
+    const value = faker.datatype.number().toString();
+    const losslessNumberInstance = parse(value);
+    const losslessNumberPureObject = JSON.parse(
+      JSON.stringify(losslessNumberInstance)
+    );
+    const item = { [key]: losslessNumberPureObject };
+    const expectedResult = { [key]: value };
+    const filter = new LoggerFilter();
+
+    // When
+    const parsed = filter.process(item);
+
+    // Then
+    expect(parsed).toStrictEqual(expectedResult);
+  });
+
   it("Should replace into a nested object inside an array", () => {
     // Given
     const key = faker.random.word();
@@ -238,7 +258,7 @@ describe("LoggerFilter", () => {
     expect(parsed.error.name).toBe(expectedResult.error.name);
   });
 
-  it("Should serialize an axios error removing not need attributes", () => {
+  it("Should serialize an axios error removing useless attributes and replacing sensitive content", () => {
     // Given
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const error = require("./fixtures/axios-error.json");
@@ -246,11 +266,21 @@ describe("LoggerFilter", () => {
     const item = { error };
     const expectedError = {
       error: {
-        config: error.config,
+        config: {
+          ...error.config,
+          data: {},
+          maxContentLength: error.config.maxContentLength.toString(),
+          timeout: error.config.timeout.toString(),
+          headers: {
+            ...error.config.headers,
+            "x-api-key": DEFAULT_PLACE_HOLDER,
+            countryId: error.config.headers.countryId.toString(),
+          },
+        },
         message: error.message,
         name: error.name,
         response: {
-          status: error.response.status,
+          status: error.response.status.toString(),
           statusText: error.response.statusText,
           headers: error.response.headers,
           data: error.response.data,

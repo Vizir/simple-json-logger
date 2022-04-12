@@ -47,16 +47,28 @@ export class LoggerFilter {
     return result;
   }
 
+  private isLossLessNumber(value: any): boolean {
+    if (value instanceof LosslessNumber) {
+      return true;
+    }
+
+    if (value?.constructor === Object && value.type === "LosslessNumber") {
+      return true;
+    }
+
+    return false;
+  }
+
   private filterItem(key: string, item: any): any {
     if (this.isOnBlacklist(key) && !this.isOnWhitelist(key)) {
       return this.placeholder;
     }
 
     if (item instanceof Error) {
-      return this.filterError(item);
+      return this.filterObject(this.filterError(item));
     }
 
-    if (item instanceof LosslessNumber) {
+    if (this.isLossLessNumber(item)) {
       return item.value;
     }
 

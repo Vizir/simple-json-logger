@@ -7,7 +7,8 @@
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/json;charset=utf-8",
       "countryId": 1,
-      "User-Agent": "axios/0.19.2"
+      "User-Agent": "axios/0.19.2",
+      "x-api-key": "b6732a5f-a233-49b1-8b23-ef92d8e638ab"
     },
     "baseURL": "https://domain.com",
     "transformRequest": [],
